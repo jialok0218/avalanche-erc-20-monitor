@@ -1,0 +1,12 @@
+# Environment Variables
+.env
+
+# Compiled JavaScript Files
+dist/
+
+# Node Modules
+node_modules/
+
+# Logs & System Files
+*.log
+.DS_Store
