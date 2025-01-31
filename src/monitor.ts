@@ -7,7 +7,7 @@ dotenv.config();
 // Detect the selected network (either "fuji" or "avalanche")
 const NETWORK = process.env.NETWORK?.toLowerCase();
 const RPC_URL: string | undefined = NETWORK === "fuji" ? process.env.FUJI_RPC_URL : process.env.AVAX_RPC_URL;
-const EXPLORER_URL: string = 
+const EXPLORER_URL: string =
     NETWORK === "fuji" ? process.env.FUJI_EXPLORER_URL || "" : process.env.AVAX_EXPLORER_URL || "";
 
 if (!EXPLORER_URL) {
@@ -36,22 +36,26 @@ provider.on("block", async (blockNumber: number) => {
     console.log(`🔍 Checking Block: ${blockNumber}`);
 
     try {
-        const block = await provider.getBlock(blockNumber);
+        const block = await provider.getBlock(blockNumber, true); // ✅ Fetch transactions with block
         if (!block || !block.transactions.length) return;
 
         for (const txHash of block.transactions) {
-            const receipt = await provider.getTransactionReceipt(txHash);
+            let tx: ethers.TransactionResponse | null =
+                typeof txHash === "string" ? await provider.getTransaction(txHash) : txHash;
+
+            // ✅ Skip if the transaction is null (prevents crashes)
+            if (!tx) continue;
+
+            // ✅ Ensure it's a contract creation transaction
+            if (tx.to !== null) continue;
+
+            // ✅ Check if the transaction's input data starts with `0x60806040`
+            if (!tx.data.startsWith("0x60806040")) continue;
+
+            // Fetch contract creation receipt
+            const receipt = await provider.getTransactionReceipt(tx.hash);
             if (receipt && receipt.contractAddress) {
                 const contractAddress: string = receipt.contractAddress;
-
-                // Fetch transaction details to get the deployer (creator) address
-                const tx = await provider.getTransaction(txHash);
-
-                if (!tx) {
-                    console.warn(`⚠️ Warning: Transaction ${txHash} not found. Skipping...`);
-                    continue;
-                }
-
                 const creatorAddress: string = tx.from;
 
                 // Check if it's an ERC-20 token
@@ -81,7 +85,6 @@ provider.on("block", async (blockNumber: number) => {
                     } else {
                         console.log(`❌ Ignored ${name} (${symbol}) - Supply too low: ${formattedSupply}`);
                     }
-
                 } catch (error) {
                     console.error(`❌ Failed to fetch token details for ${contractAddress}:`, error);
                 }

@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "npx ts-node src/monitor.ts", 
-    "build": "npx tsc",  
-    "prod": "node dist/monitor.js",  
+    "start": "npx ts-node src/monitor.ts",
+    "build": "npx tsc",
+    "prod": "node dist/monitor.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
