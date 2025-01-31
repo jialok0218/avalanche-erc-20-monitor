@@ -1,1 +1,1 @@
-nano Procfile
+worker: npm run prod
