@@ -35,6 +35,9 @@ export async function sendToDiscord(
                     { name: "🔣 Symbol", value: symbol, inline: true },
                     { name: "📊 Decimals", value: decimals.toString(), inline: true }
                 ],
+                footer: {
+                    text: "Avalanche ERC-20 Monitor Bot",
+                },
                 timestamp: new Date(),
             }
         ]
