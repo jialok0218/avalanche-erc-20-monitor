@@ -1,8 +1,10 @@
-﻿# 🚀 Avalanche ERC-20 Monitor
+﻿# 📌 Avalanche ERC-20 Monitor
 
-A real-time monitoring tool that **detects new ERC-20 token deployments** on the **Avalanche (AVAX) C-Chain** and **sends automated alerts to Discord**.
+🚀 A real-time monitoring tool that **detects new ERC-20 token deployments** on the **Avalanche (AVAX) C-Chain** and **sends automated alerts to Discord**.
 
-## **🔹 Features**
+---
+
+## **📖 Features**
 - ✅ **Real-time monitoring** of newly deployed ERC-20 contracts.
 - 🔍 **Smart filtering** to detect only **new contract creations** (not token swaps or transfers).
 - 🛠️ **ERC-20 validation** using:
@@ -113,4 +115,9 @@ heroku ps:scale worker=1
 - 🔗 **Alchemy / Infura** - Avalanche RPC provider.
 - 💬 **Discord Webhooks** - Token alert notifications.
 - ☁️ **Heroku** - For bot deployment.
+
+---
+
+## **📜 License**
+This project is **open-source** under the **MIT License**.
 
